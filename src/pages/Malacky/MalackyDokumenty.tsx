@@ -134,6 +134,16 @@ const MalackyDokumenty = () => {
                   Potvrdenie od lekára musí obsahovať <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">5 pečiatok</span> a <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">5 podpisov</span>
                 </p>
               </div>
+              <div className="bg-rose-600 px-4 py-3 sm:py-3.5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+                <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/95 text-rose-600 shadow-sm shrink-0" aria-hidden>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                  </svg>
+                </span>
+                <p className="text-white font-extrabold text-sm sm:text-base uppercase tracking-wide text-balance">
+                  Čestné vyhlásenie <span className="underline decoration-white/90 decoration-2 underline-offset-2">nevyplňať</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

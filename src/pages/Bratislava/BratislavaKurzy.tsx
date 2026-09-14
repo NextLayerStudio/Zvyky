@@ -104,7 +104,7 @@ const BratislavaKurzy = () => {
             </div>
             <div className="p-6 flex flex-col flex-grow">
               <h2 className="text-2xl font-extrabold mb-2 font-inter">Kondičné jazdy</h2>
-              <h3 className="text-sm font-bold mb-3 font-inter">Pre držiteľa vodičského oprávnenia B (60min)</h3>
+              <p className="text-sm font-bold mb-3 font-inter">Pre držiteľa vodičského oprávnenia B (60min)</p>
               <div className="flex-grow"></div>
               <div className="flex gap-2 mb-3">
                 <Link
@@ -131,7 +131,7 @@ const BratislavaKurzy = () => {
               <h2 className="text-2xl font-extrabold mb-2 font-inter">Osobitný výcvik</h2>
               <h3 className="text-sm font-bold mb-3 font-inter">Osobitný prístup</h3>
               <p className="text-gray-600 mb-4 text-xs leading-relaxed flex-grow">
-                Cena nezahŕňa správny poplatok za skúšku (kolok 16,50€)
+              Cena nezahŕňa správny poplatok za skúšku (kolok 50€) a poplatok za kurz prvej pomoci
               </p>
               <div className="flex gap-2 mb-3">
                 <Link
