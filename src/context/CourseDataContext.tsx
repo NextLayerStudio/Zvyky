@@ -72,6 +72,8 @@ export interface Registration {
   drzitelPreukazu:   string
   ziadamSkupiny:     string
   zakladNa:          'kurzSkuska' | 'osobitnaSkuska' | 'osobitnyVycvik'
+  /** Null for registrations made before this question was added to the form. */
+  studujeNaSlovensku?: boolean | null
   podpisVMeste:      string
   podpisDna:         string
   isMinor:           boolean

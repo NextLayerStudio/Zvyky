@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { useCourseData, type Registration } from '../context/CourseDataContext'
 import { fillZiadostPDF } from '../utils/fillZiadostPDF'
+import VzdelanieNotice from '../components/VzdelanieNotice'
 
 interface Props {
   location: 'Malacky' | 'Bratislava'
@@ -27,6 +28,7 @@ interface FormState {
   drzitelSkupiny: string
   drzitelPreukazu: string
   zakladNa: ZakladNa
+  studujeNaSlovensku: '' | 'ano' | 'nie'
   podpisVMeste: string
   // Minor
   isMinor: boolean
@@ -64,6 +66,7 @@ const BLANK: FormState = {
   ulica: '', mesto: '', psc: '',
   drzitelSkupiny: '', drzitelPreukazu: '',
   zakladNa: 'kurzSkuska',
+  studujeNaSlovensku: '',
   podpisVMeste: '',
   isMinor: false,
   zakonnyZastupcaMeno: '', zakonnyZastupcaPriezvisko: '',
@@ -120,6 +123,7 @@ function formToPdfRegistration(
     drzitelPreukazu: form.drzitelPreukazu,
     ziadamSkupiny: form.courseType,
     zakladNa: form.zakladNa,
+    studujeNaSlovensku: form.studujeNaSlovensku === '' ? null : form.studujeNaSlovensku === 'ano',
     podpisVMeste: form.podpisVMeste,
     podpisDna,
     isMinor: form.isMinor,
@@ -169,6 +173,7 @@ const Registracia = ({ location }: Props) => {
   /** Dátum podpisu pri odoslaní — rovnaký pri opakovanom stiahnutí PDF */
   const [submittedPodpisDna, setSubmittedPodpisDna] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [vzdelanieOk, setVzdelanieOk] = useState(false)
 
   useEffect(() => {
     const allowed = COURSE_OPTIONS[location].map(o => o.value)
@@ -197,6 +202,10 @@ const Registracia = ({ location }: Props) => {
     required.forEach(f => {
       if (!form[f as keyof FormState]) errs[f] = 'Povinné pole'
     })
+    if (!form.studujeNaSlovensku) errs.studujeNaSlovensku = 'Vyberte áno alebo nie'
+    if (form.courseType === 'B' && !vzdelanieOk) {
+      errs.vzdelanieOk = 'Potvrďte, že doklad o vzdelaní predložíte'
+    }
     if (form.isMinor) {
       if (!form.zakonnyZastupcaMeno)        errs.zakonnyZastupcaMeno        = 'Povinné'
       if (!form.zakonnyZastupcaPriezvisko)  errs.zakonnyZastupcaPriezvisko  = 'Povinné'
@@ -235,6 +244,7 @@ const Registracia = ({ location }: Props) => {
         drzitelPreukazu: form.drzitelPreukazu,
         ziadamSkupiny: form.courseType,
         zakladNa: form.zakladNa,
+        studujeNaSlovensku: form.studujeNaSlovensku === 'ano',
         podpisVMeste: form.podpisVMeste,
         podpisDna,
         isMinor: form.isMinor,
@@ -294,6 +304,12 @@ const Registracia = ({ location }: Props) => {
             Budeme Vás kontaktovať na <strong>{form.email}</strong> alebo telefonicky s ďalšími informáciami k kurzu.
           </p>
 
+          {form.courseType === 'B' && (
+            <div className="mb-6">
+              <VzdelanieNotice variant="compact" />
+            </div>
+          )}
+
           <div
             className="mb-6 text-left rounded-2xl overflow-hidden ring-2 ring-amber-400/90 border border-amber-500 shadow-md"
           >
@@ -305,10 +321,30 @@ const Registracia = ({ location }: Props) => {
               </span>
               <span className="text-white font-extrabold text-xs sm:text-sm uppercase tracking-wide">Povinné</span>
             </div>
-            <p className="px-3 sm:px-4 py-3 sm:py-4 text-sm sm:text-base font-bold text-gray-900 leading-snug bg-amber-50/90 text-balance">
+            {/* The card is narrow, so the sample opens full size on tap. */}
+            <a
+              href="/images/dokument.webp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-3 sm:p-4 bg-amber-50/60 group"
+            >
+              <img
+                src="/images/dokument.webp"
+                alt="Príklad: potvrdenie od lekára s vyznačenými pečiatkami a podpismi"
+                className="w-full h-auto object-contain rounded-lg ring-1 ring-amber-200/80 shadow-sm"
+              />
+              <span className="mt-2 flex items-center justify-center gap-1 text-xs font-semibold text-amber-700 group-hover:underline">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                </svg>
+                Ťuknutím zväčšíte
+              </span>
+            </a>
+            <p className="px-3 sm:px-4 py-3 sm:py-4 text-sm sm:text-base font-bold text-gray-900 leading-snug bg-amber-50/90 text-balance border-t border-amber-200">
               Potvrdenie od lekára musí obsahovať{' '}
               <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">5 pečiatok</span> a{' '}
-              <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">5 podpisov</span>
+              <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">4 podpisy</span>
             </p>
             <div className="bg-rose-600 px-3 sm:px-4 py-2.5 flex items-center justify-center gap-2">
               <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/95 text-rose-600 shrink-0" aria-hidden>
@@ -418,6 +454,11 @@ const Registracia = ({ location }: Props) => {
                 </select>
               </div>
             </div>
+            {form.courseType === 'B' && (
+              <div className="mt-5">
+                <VzdelanieNotice variant="compact" />
+              </div>
+            )}
           </div>
 
           {/* ── 2. Osobné údaje (PDF žiadosť) ── */}
@@ -511,6 +552,33 @@ const Registracia = ({ location }: Props) => {
                 </label>
               ))}
             </div>
+
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <p className="text-sm font-semibold text-gray-700 mb-1.5">
+                Študujem na území Slovenskej republiky aspoň šesť mesiacov
+                <span className="text-red-500 ml-0.5">*</span>
+              </p>
+              <p className="text-xs text-gray-400 mb-3">Podľa § 77 ods. 2 zákona č. 8/2009 Z. z.</p>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { key: 'ano', label: 'Áno' },
+                  { key: 'nie', label: 'Nie' },
+                ].map(opt => (
+                  <label key={opt.key}
+                    className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      form.studujeNaSlovensku === opt.key
+                        ? 'border-sky-400 bg-sky-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}>
+                    <input type="radio" name="studujeNaSlovensku" value={opt.key}
+                      checked={form.studujeNaSlovensku === opt.key} onChange={handleChange}
+                      className="accent-sky-500 w-4 h-4 flex-shrink-0" />
+                    <span className="text-sm font-medium text-gray-800">{opt.label}</span>
+                  </label>
+                ))}
+              </div>
+              {err('studujeNaSlovensku')}
+            </div>
           </div>
 
           {/* ── 6. Zákonný zástupca ── */}
@@ -588,6 +656,28 @@ const Registracia = ({ location }: Props) => {
             na vodičský kurz v súlade s GDPR. Údaje nebudú poskytnuté tretím stranám. Odoslaním registrácie
             súhlasíte so spracovaním osobných údajov.
           </div>
+
+          {form.courseType === 'B' && (
+            <label className={`flex items-start gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all bg-white ${
+              vzdelanieOk ? 'border-sky-400 bg-sky-50/50' : errors.vzdelanieOk ? 'border-red-300' : 'border-gray-200'
+            }`}>
+              <input
+                type="checkbox"
+                checked={vzdelanieOk}
+                onChange={e => {
+                  setVzdelanieOk(e.target.checked)
+                  if (errors.vzdelanieOk) setErrors(prev => { const n = { ...prev }; delete n.vzdelanieOk; return n })
+                }}
+                className="accent-sky-500 w-4 h-4 mt-0.5 flex-shrink-0"
+              />
+              <span className="text-sm text-gray-800 leading-relaxed">
+                Beriem na vedomie, že pred zaradením do kurzu B predložím doklad o vzdelaní
+                (vysvedčenie, diplom alebo potvrdenie o štúdiu). Bez dokladu ma autoškola do kurzu nezaradí.
+                <span className="text-red-500 ml-0.5">*</span>
+              </span>
+            </label>
+          )}
+          {err('vzdelanieOk')}
 
           {/* ── Submit error ── */}
           {errors.submit && (

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useCourseData } from '../../context/CourseDataContext'
+import VzdelanieNotice from '../../components/VzdelanieNotice'
 
 const BratislavaKurzBDetail = () => {
   const { prices } = useCourseData()
@@ -153,6 +154,11 @@ const BratislavaKurzBDetail = () => {
             <p className="text-base md:text-lg text-gray-700 leading-relaxed">
               Pred skúškou musíš absolvovať aj kurz prvej pomoci s ktorým ti radi pomôžeme.
             </p>
+          </div>
+
+          {/* Education requirement */}
+          <div className="mb-12">
+            <VzdelanieNotice />
           </div>
 
           {/* Administrative Fee */}

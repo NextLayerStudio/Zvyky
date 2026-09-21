@@ -1,3 +1,5 @@
+import VzdelanieNotice from '../../components/VzdelanieNotice'
+
 const MalackyDokumenty = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -29,7 +31,7 @@ const MalackyDokumenty = () => {
                   </p>
                 </div>
                 <p className="text-gray-600 text-sm md:text-base">
-                  Formulár musí byť vytlačený obojstranne na jeden list papiera
+                  Strany 1 a 2 vytlačte obojstranne na jeden list papiera. 3. strana je len poučenie pre lekára.
                 </p>
               </div>
 
@@ -91,7 +93,7 @@ const MalackyDokumenty = () => {
                 </svg>
               </div>
               <h3 className="font-bold text-black mb-2">Obojstranná tlač</h3>
-              <p className="text-sm text-gray-600">Jeden list papiera</p>
+              <p className="text-sm text-gray-600">Strany 1 a 2 na jeden list</p>
             </div>
 
             <div className="bg-white rounded-2xl p-6 shadow-lg text-center border border-gray-100">
@@ -101,8 +103,12 @@ const MalackyDokumenty = () => {
                 </svg>
               </div>
               <h3 className="font-bold text-black mb-2">Aktuálny formulár</h3>
-              <p className="text-sm text-gray-600">Platný pre rok 2025</p>
+              <p className="text-sm text-gray-600">Platný pre rok 2026</p>
             </div>
+          </div>
+
+          <div className="mt-12 max-w-2xl mx-auto">
+            <VzdelanieNotice />
           </div>
 
           {/* Potvrdenie od lekára — povinné požiadavky (výrazne zvýraznené) */}
@@ -124,14 +130,14 @@ const MalackyDokumenty = () => {
               </div>
               <div className="p-4 sm:p-6 bg-amber-50/60">
                 <img
-                  src="/images/dokument.png"
+                  src="/images/dokument.webp"
                   alt="Príklad: potvrdenie od lekára"
                   className="w-full h-auto max-h-[70vh] object-contain mx-auto rounded-lg ring-1 ring-amber-200/80 shadow-md"
                 />
               </div>
               <div className="px-4 sm:px-8 py-6 sm:py-7 border-t-2 border-amber-200 bg-amber-100/50">
                 <p className="text-gray-900 text-base sm:text-lg md:text-xl font-bold leading-snug text-balance">
-                  Potvrdenie od lekára musí obsahovať <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">5 pečiatok</span> a <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">5 podpisov</span>
+                  Potvrdenie od lekára musí obsahovať <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">5 pečiatok</span> a <span className="text-amber-800 underline decoration-amber-500 decoration-2 underline-offset-2">4 podpisy</span>
                 </p>
               </div>
               <div className="bg-rose-600 px-4 py-3 sm:py-3.5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">

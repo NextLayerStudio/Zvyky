@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import AdminLayout from './components/AdminLayout'
 import { useCourseData, Registration } from '../../context/CourseDataContext'
 import { fillZiadostPDF } from '../../utils/fillZiadostPDF'
+import { formatSkDate } from '../../utils/ziadostPdfCore'
 
 const statusConfig = {
   pending:  { label: 'Čakajúce',   bg: 'bg-amber-100', text: 'text-amber-700',  dot: 'bg-amber-400' },
@@ -81,7 +82,7 @@ const printZiadost = (r: Registration) => {
   <div class="field"><div class="fl">rodné priezvisko</div><div class="fv">${v(r.rodnePriezvisko)}</div></div>
 
   <div class="row2">
-    <div class="col"><div class="fl">dátum narodenia</div><div class="fv">${v(r.datumNarodenia)}</div></div>
+    <div class="col"><div class="fl">dátum narodenia</div><div class="fv">${v(formatSkDate(r.datumNarodenia))}</div></div>
     <div class="col"><div class="fl">miesto narodenia</div><div class="fv">${v(r.miestoNarodenia)}</div></div>
   </div>
 
@@ -96,6 +97,14 @@ const printZiadost = (r: Registration) => {
     <div class="cb-row"><div class="cb">${checked('kurzSkuska')}</div><span class="cb-lbl">vodičského kurzu a skúšky z odbornej spôsobilosti</span></div>
     <div class="cb-row"><div class="cb">${checked('osobitnaSkuska')}</div><span class="cb-lbl">osobitnej skúšky</span></div>
     <div class="cb-row"><div class="cb">${checked('osobitnyVycvik')}</div><span class="cb-lbl">osobitného výcviku</span></div>
+  </div>
+
+  <div class="field">
+    <div class="na-lbl">Študujem na území Slovenskej republiky aspoň šesť mesiacov*</div>
+    <div class="cb-row">
+      <div class="cb">${r.studujeNaSlovensku === true ? '<span style="font-weight:bold;">X</span>' : '&nbsp;'}</div><span class="cb-lbl">áno</span>
+      <div class="cb">${r.studujeNaSlovensku === false ? '<span style="font-weight:bold;">X</span>' : '&nbsp;'}</div><span class="cb-lbl">nie</span>
+    </div>
   </div>
 
   <div class="sign-row">
@@ -449,7 +458,7 @@ const AdminRegistrations = () => {
                     { label: 'Meno',                      value: selected.meno },
                     { label: 'Priezvisko',                value: selected.priezvisko },
                     { label: 'Rodné priezvisko',          value: selected.rodnePriezvisko },
-                    { label: 'Dátum narodenia',           value: selected.datumNarodenia },
+                    { label: 'Dátum narodenia',           value: formatSkDate(selected.datumNarodenia) },
                     { label: 'Miesto narodenia',          value: selected.miestoNarodenia },
                     { label: 'Rodné číslo',               value: selected.rodneCislo },
                     { label: 'Ulica',                     value: selected.ulica },
@@ -463,6 +472,9 @@ const AdminRegistrations = () => {
                         osobitnaSkuska: 'Osobitná skúška',
                         osobitnyVycvik: 'Osobitný výcvik',
                       }[selected.zakladNa] },
+                    { label: 'Štúdium na Slovensku 6+ mes.', value: selected.studujeNaSlovensku == null
+                        ? '—'
+                        : selected.studujeNaSlovensku ? 'Áno' : 'Nie' },
                     { label: 'Prvá pomoc',                value: selected.hasFirstAid ? `Áno${selected.firstAidDate ? ` (${selected.firstAidDate})` : ''}` : 'Nie' },
                     { label: 'Preferovaný termín',        value: selected.preferredStartDate || '—' },
                   ].map(item => (

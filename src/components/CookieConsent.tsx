@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const CONSENT_KEY = 'zvyky_cookie_consent'
+import { CONSENT_KEY, COOKIE_CONSENT_EVENT } from '../utils/cookieConsent'
 
 type CookiePreferences = {
   necessary: true
@@ -11,6 +11,7 @@ type CookiePreferences = {
 
 const saveConsent = (preferences: CookiePreferences) => {
   localStorage.setItem(CONSENT_KEY, JSON.stringify(preferences))
+  window.dispatchEvent(new Event(COOKIE_CONSENT_EVENT))
 }
 
 const CookieConsent = () => {

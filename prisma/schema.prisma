@@ -51,6 +51,8 @@ model Registration {
   drzitelPreukazu           String   @default("")
   ziadamSkupiny             String
   zakladNa                  String
+  // Null for registrations submitted before this question was added to the form.
+  studujeNaSlovensku        Boolean?
   podpisVMeste              String
   podpisDna                 String
   isMinor                   Boolean  @default(false)

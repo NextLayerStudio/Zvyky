@@ -19,6 +19,7 @@ function regToFields(reg: Registration): ZiadostPdfFields {
     drzitelPreukazu: reg.drzitelPreukazu,
     ziadamSkupiny: reg.ziadamSkupiny,
     zakladNa: reg.zakladNa,
+    studujeNaSlovensku: reg.studujeNaSlovensku,
     podpisVMeste: reg.podpisVMeste,
     podpisDna: reg.podpisDna,
     isMinor: reg.isMinor,
@@ -34,16 +35,6 @@ export async function fillZiadostPDF(reg: Registration): Promise<Blob> {
   if (!formRes.ok) throw new Error(`Cannot load PDF form: ${formRes.status}`)
   const formBytes = await formRes.arrayBuffer()
   const pdfDoc = await PDFDocument.load(formBytes)
-
-  // Keep a 2-page document: page 1 = filled overlay; page 2 = from template (empty of our text).
-  const n = pdfDoc.getPageCount()
-  if (n > 2) {
-    for (let i = n - 1; i >= 2; i--) pdfDoc.removePage(i)
-  } else if (n === 1) {
-    const p0 = pdfDoc.getPage(0)
-    const { width, height } = p0.getSize()
-    pdfDoc.addPage([width, height])
-  }
 
   pdfDoc.registerFontkit(fontkit)
 

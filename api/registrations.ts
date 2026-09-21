@@ -49,6 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           drzitelPreukazu:   d.drzitelPreukazu ? String(d.drzitelPreukazu) : '',
           ziadamSkupiny:     String(d.ziadamSkupiny),
           zakladNa:          String(d.zakladNa),
+          studujeNaSlovensku: typeof d.studujeNaSlovensku === 'boolean' ? d.studujeNaSlovensku : null,
           podpisVMeste:      String(d.podpisVMeste),
           podpisDna:         String(d.podpisDna),
           isMinor:           Boolean(d.isMinor ?? false),

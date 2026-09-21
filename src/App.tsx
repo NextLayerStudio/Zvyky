@@ -8,6 +8,7 @@ import BratislavaNavigation from './components/BratislavaNavigation'
 import Footer from './components/Footer'
 import LocationLayout from './components/LocationLayout'
 import CookieConsent from './components/CookieConsent'
+import HiringBanner from './components/HiringBanner'
 import Gdpr from './pages/Legal/Gdpr'
 import Cookies from './pages/Legal/Cookies'
 import ObchodnePodmienky from './pages/Legal/ObchodnePodmienky'
@@ -243,6 +244,7 @@ function App() {
         <Route path="/admin/terminy" element={<ProtectedRoute><AdminDates /></ProtectedRoute>} />
       </Routes>
       <Analytics />
+      <HiringBanner />
       <CookieConsent />
     </Router>
     </CourseDataProvider>
